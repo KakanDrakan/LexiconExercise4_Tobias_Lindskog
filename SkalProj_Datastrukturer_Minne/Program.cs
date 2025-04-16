@@ -118,22 +118,6 @@ class Program
 
         } while (isAlive);
 
-        /*
-         * Loop this method untill the user inputs something to exit to main menue.
-         * Create a switch statement with cases '+' and '-'
-         * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-         * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
-         * In both cases, look at the count and capacity of the list
-         * As a default case, tell them to use only + or -
-         * Below you can see some inspirational code to begin working.
-        */
-
-        //List<string> theList = new List<string>();
-        //string input = Console.ReadLine();
-        //char nav = input[0];
-        //string value = input.substring(1);
-
-        //switch(nav){...}
     }
 
     /// <summary>
@@ -173,11 +157,6 @@ class Program
 
         } while (isAlive);
 
-        /*
-         * Loop this method untill the user inputs something to exit to main menue.
-         * Create a switch with cases to enqueue items or dequeue items
-         * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
-        */
     }
 
     /// <summary>
@@ -186,6 +165,8 @@ class Program
 
     //Att simulera en ICA-kö med en stack är inte så bra eftersom vi anser att köer är rättvisa om de är FIFO, inte FILO, som stacks är.
     //Den som ställer sig i kön först hade kanske fått stå där hela dagen!!!
+    //Att ändå använda stacks för att simulera hur riktiga köer fungerar är tekniskt sett möjligt genom att t.ex flytta över alla element i ena stacken
+    //till en ny stack (som då blir omvänd ordning), ta bort ett element, och sedan flytta tillbaka, men då förlorar man ju poängen med stacks
     static void ExamineStack()
     {
         bool isAlive = true;
@@ -219,11 +200,6 @@ class Program
 
         } while (isAlive);
 
-        /*
-         * Loop this method until the user inputs something to exit to main menue.
-         * Create a switch with cases to push or pop items
-         * Make sure to look at the stack after pushing and and poping to see how it behaves
-        */
     }
 
     static void ReverseText()
@@ -242,44 +218,33 @@ class Program
     //If we find a closing parenthesis that does not match the parenthesis at the top of the stack, that means parentheses are incorrect
     static void CheckParanthesis()
     {
-        Console.Write("Input a string to check if parenthesis are correct: ");
+        Console.Write("Input a string to check if parentheses are correct: ");
         string input = Console.ReadLine();
         Stack<char> stack = new Stack<char>();
-        var openingParenthesis = new HashSet<char>()        //I like HashSets so here we are
+        
+        var parenthesisPairs = new Dictionary<char, char>() //using a dictionary to keep track of pairs
         {
-            '(',
-            '[',
-            '{'
+            { '(', ')' },
+            { '[', ']' },
+            { '{', '}' }
         };
-        var closingParenthesis = new HashSet<char>()
-        {
-            ')',
-            ']',
-            '}',
-        };
+
+        bool isCorrect = true; //we set this to false if it turns out a parenthesis is unpaired
         foreach (char ch in input)
         {
-            if (openingParenthesis.Contains(ch))
+            if (parenthesisPairs.ContainsKey(ch))
             {
-                stack.Push(ch);                             //we push the opening parenthesis onto the stack because the most recent one must be paired
-                                                            //with a closing parenthesis before those under it are
+                //we push the opening parenthesis onto the stack because the most recent one must be paired with a closing parenthesis before those under it are
+                stack.Push(ch);
             }
-            if (closingParenthesis.Contains(ch))
+            if (parenthesisPairs.ContainsValue(ch)) 
             {
-                if (ch == stack.First()) stack.Pop();       //we pop the stack because the first parenthesis in it has been paired
-                else break;                                 //or we stop the loop because we have confirmed the string is incorrect
+                if (stack.Count != 0 && parenthesisPairs[stack.Peek()] == ch) stack.Pop();  //we pop the stack because the first parenthesis in it has been paired
+                else { isCorrect = false; break; }                      //or we stop the loop because we have confirmed the string is incorrect
             }
         }
-        if (stack.Count == 0) Console.WriteLine("Correct parenthesis");
+        if (isCorrect) Console.WriteLine("Correct parenthesis");
         else Console.WriteLine("Incorrect parenthesis");
-
-
-
-        /*
-         * Use this method to check if the paranthesis in a string is Correct or incorrect.
-         * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
-         * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
-         */
 
     }
 
