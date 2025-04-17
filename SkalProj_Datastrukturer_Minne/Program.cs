@@ -61,7 +61,7 @@ class Program
                     IterativeEven();
                     break;
                 case '9':
-                    IterativeFibbonacci();
+                    IterativeFibonacci();
                     break;
                 /*
                  * Extend the menu to include the recursive 
@@ -315,7 +315,11 @@ class Program
 
     }
 
-    static void IterativeFibbonacci()
+    
+    //Att iterativt beräkna något är nästan alltid (alltid?) mer effektivt än att göra det rekursivt.
+    //De rekursiva funktionerna behöver lägga mer och mer på stacken, men det behöver inte de iterativa.
+    //En rekursiv funktion kallar på sig själv flera gånger, vilket innebär att stacken inte tar bort data förs den är helt klar (risk för stack overflow).
+    static void IterativeFibonacci()
     {
         Console.Write("Input n to get the n:th fibonacci number: ");
         bool success = false;
